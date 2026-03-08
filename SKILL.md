@@ -214,15 +214,24 @@ When converting PowerPoint files:
 
 ## Phase 5: PPTX Export
 
-After generating the HTML presentation, ask the user if they want to export to PPTX. If yes, follow the steps below.
+After generating the HTML presentation, ask the user if they want to export to PPTX. If yes, ask:
 
-### Dependencies
+**Question: Export Format**
+Do you want an editable native PPTX or a high-fidelity screenshot PPTX? Options:
+- "Native text/shapes" (Smaller file, editable text, but font/layout might differ slightly from HTML)
+- "Screenshots" (Larger file, non-editable text, but 100% preserves original HTML design and fonts)
+
+Depending on their choice, follow the corresponding section below.
+
+### Option A: Native PPTX (via PptxGenJS)
+
+#### Dependencies
 
 ```bash
 npm install pptxgenjs
 ```
 
-### PPTX Generation Rules
+#### PPTX Generation Rules
 
 **Before generating, read these supporting files:**
 - [html2pptx.md](html2pptx.md) — HTML to PPTX conversion detailed guide
@@ -236,6 +245,7 @@ const PptxGenJS = require('pptxgenjs');
 
 // Create presentation
 const pptx = new PptxGenJS();
+
 
 // Metadata
 pptx.author = 'Author Name';
@@ -303,6 +313,27 @@ pptx.writeFile({ fileName: 'output/presentation.pptx' })
 | Border | `E5E7EB` | Border/Divider |
 
 > **Important:** Always derive PPTX colors from the HTML presentation's style. Do not default to the above palette if a specific style was selected.
+
+### Option B: Screenshot PPTX (via Playwright)
+
+If the user wants a pixel-perfect screenshot presentation:
+
+#### Dependencies
+
+```bash
+npm install playwright pptxgenjs
+```
+
+#### Screenshot Generation Rules
+
+1. Write a Node.js script using `playwright` to launch a headless browser.
+2. The script should open the generated HTML file.
+3. It must wait for the initial animations to finish (e.g., `await page.waitForTimeout(2000)`).
+4. Iterate through all slides (either by calling the presentation's navigation JS, like `await page.evaluate(() => app.goToSlide(i))`, or simulating keyboard events like `await page.keyboard.press('ArrowDown')`).
+5. After navigating to each slide, wait for any transition/reveal animations to complete before capturing (`await page.waitForTimeout(1500)`).
+6. Take a screenshot of the viewport (`const buffer = await page.screenshot()`).
+7. Use `pptxgenjs` to create a new presentation, add a slide for each screenshot, and set the screenshot as the slide background or a full-size image.
+8. Save the `.pptx` file.
 
 ---
 
