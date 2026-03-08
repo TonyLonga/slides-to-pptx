@@ -13,6 +13,7 @@ Create zero-dependency, animation-rich HTML presentations that run entirely in t
 2. **Show, Don't Tell** — Generate visual previews, not abstract choices. People discover what they want by seeing it.
 3. **Distinctive Design** — No generic "AI slop." Every presentation must feel custom-crafted.
 4. **Viewport Fitting (NON-NEGOTIABLE)** — Every slide MUST fit exactly within 100vh. No scrolling within slides, ever. Content overflows? Split into multiple slides.
+5. **Step-by-Step Execution** — You MUST execute this workflow strictly step-by-step. Never jump ahead to the next phase. ALWAYS stop and wait for user input after asking a question.
 
 ## Design Aesthetics
 
@@ -107,6 +108,8 @@ Do you need to edit text directly in the browser after generation? Options:
 
 If user has content, ask them to share it.
 
+🛑 **CRITICAL: STOP HERE AND WAIT. You must wait for the user to answer the questions above. DO NOT proceed to Phase 2 or 3 until the user replies.**
+
 ### Step 1.2: Image Evaluation (if images provided)
 
 If user selected "No images" → skip to Phase 2.
@@ -117,6 +120,8 @@ If user provides an image folder:
 3. **Evaluate** — For each: what it shows, USABLE or NOT USABLE (with reason), what concept it represents, dominant colors
 4. **Co-design the outline** — Curated images inform slide structure alongside text. This is NOT "plan slides then add images" — design around both from the start (e.g., 3 screenshots → 3 feature slides, 1 logo → title/closing slide)
 5. **Confirm** (header: "Outline"): "Does this slide outline and image selection look right?" Options: Looks good / Adjust images / Adjust outline
+
+🛑 **CRITICAL: STOP HERE AND WAIT for the user to confirm the outline before generating any presentation.**
 
 **Logo in previews:** If a usable logo was identified, embed it (base64) into each style preview in Phase 2 — the user sees their brand styled three different ways.
 
@@ -134,6 +139,8 @@ Ask how they want to choose (header: "Style"):
 
 **If direct selection:** Show preset picker and skip to Phase 3. Available presets are defined in [STYLE_PRESETS.md](STYLE_PRESETS.md).
 
+🛑 **CRITICAL: STOP HERE AND WAIT for the user to choose their style path. DO NOT simulate their choice.**
+
 ### Step 2.1: Mood Selection (Guided Discovery)
 
 Ask (header: "Vibe", multiSelect: true, max 2):
@@ -142,6 +149,8 @@ What feeling should the audience have? Options:
 - Excited/Energized — Innovative, bold
 - Calm/Focused — Clear, thoughtful
 - Inspired/Moved — Emotional, memorable
+
+🛑 **CRITICAL: STOP HERE AND WAIT for the user to select the mood. DO NOT proceed to generating previews until they reply.**
 
 ### Step 2.2: Generate 3 Style Previews
 
@@ -164,6 +173,8 @@ Ask (header: "Style"):
 Which style preview do you prefer? Options: Style A: [Name] / Style B: [Name] / Style C: [Name] / Mix elements
 
 If "Mix elements", ask for specifics.
+
+🛑 **CRITICAL: STOP HERE AND WAIT for the user to select their preferred style. DO NOT proceed to Phase 3 until they have explicitly made a choice.**
 
 ---
 
@@ -196,6 +207,8 @@ When converting PowerPoint files:
 2. **Confirm with user** — Present extracted slide titles, content summaries, and image counts
 3. **Style selection** — Proceed to Phase 2 for style discovery
 4. **Generate HTML** — Convert to chosen style, preserving all text, images (from assets/), slide order, and speaker notes (as HTML comments)
+
+🛑 **CRITICAL: STOP HERE AND WAIT for user feedback after generating the HTML before automatically proceeding to export PPTX.**
 
 ---
 
